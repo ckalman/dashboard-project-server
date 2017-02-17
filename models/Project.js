@@ -96,6 +96,38 @@ class Project {
         });
     }
 
+    static search(search) {
+        return new Promise(function (resolve, reject) {
+            project.find({}).then(function (projects) {
+                var temp = [];
+                projects.forEach((project) => {
+                    let finded = false;
+                    Object.keys(project).forEach((key) => {
+                        let evaluate = project[key];
+                        if (_.isObject(evaluate)) {
+
+                        } else if (_.isArray(evaluate)) {
+
+                        } else {
+                            if (_.includes(evaluate, search)) {
+                                finded = true;
+                                console.log("finded : ", search);
+                            }
+                        }
+
+
+                    });
+                    if (finded) {
+                        temp.push(project);
+                    }
+                });
+                resolve(temp);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
     save() {
         var self = this;
         return new Promise(function (resolve, reject) {
@@ -119,7 +151,7 @@ class Project {
         });
     }
 
-    static removeAll(){
+    static removeAll() {
         return new Promise(function (resolve, reject) {
             project.remove().then(function (u) {
                 resolve(true);

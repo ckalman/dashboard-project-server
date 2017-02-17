@@ -22,18 +22,24 @@ var apiRoutes = express.Router();
 
 // Authenticate route
 
+app.get('/test', (req, res) => {
+    console.log("test");
+    Project.search("test");
+    res.json("fdsfdsfsd");
+});
+
 app.post("/auth", (req, res) => {
     var username = req.body.username;
     var password = req.body.password;
-    User.findByUserName(username).then((user) =>{
+    User.findByUserName(username).then((user) => {
         console.log("test user ", user);
-        if(user && user.checkPassword(password)){
+        if (user && user.checkPassword(password)) {
             delete user.password;
             var token = jwt.sign(user, app.get('secret'), {
-                expiresIn : 144000
+                expiresIn: 144000
             });
             res.json(token);
-        }else{
+        } else {
             res.status(401).json("User name or password invalid");
         }
     }).catch((err) => {
@@ -57,19 +63,19 @@ app.get("/project/all", (req, res) => {
 // Titre, description, tags
 // TODO
 app.get("/project/search", (req, res) => {
-    projectModal
-        .searchProjects(req.body.searchValue)
-        .then(projects => {
-            res.json(projects);
-        })
-        .catch(err => console.log(err));
+    var search = req.query.search;
+    Project.search(search).then((projects) => {
+        res.json(projects);
+    }).catch(err => {
+        console.error(err);
+        res.status(500).json("/project/filtered : RIP show log");
+    });
 });
 
 app.get("/project/filtered", (req, res) => {
     var type = req.query.filterType;
     var value = req.query.value;
-    console.log("filter !", {[type]:value});
-    Project.find({[type]:value}).then((projects) => {
+    Project.find({ [type]: value }).then((projects) => {
         res.json(projects);
     }).catch(err => {
         console.error(err);
@@ -81,7 +87,7 @@ app.get("/project/:id", (req, res) => {
     let id = req.params.id;
     Project.findById(id).then((project) => {
         res.json(project);
-    }).catch(err => res.status(403).json("Project id not found"));       
+    }).catch(err => res.status(403).json("Project id not found"));
 });
 
 app.get('/role', (req, res) => {
@@ -92,15 +98,15 @@ app.get('/role', (req, res) => {
 // AUTH MIDDLEWARE
 
 // route middleware to check the token
-apiRoutes.use(function(req, res, next) {
+apiRoutes.use(function (req, res, next) {
     var token = req.headers[AUTH];
     if (token) {
-        jwt.verify(token, app.get('secret'), function(err, decoded) {
+        jwt.verify(token, app.get('secret'), function (err, decoded) {
             if (err) {
                 // console.log(err);
                 return res.json({ success: false, message: 'Failed to authenticate token.' });
             } else {
-                console.log("decoded", decoded); 
+                console.log("decoded", decoded);
                 req.user = decoded;
                 next();
             }
@@ -128,23 +134,23 @@ app.use(apiRoutes);
 
 // Secure routes
 app.post("/project", (req, res) => {
-    
+
     // Optional
-    var id = req.body.userId; 
+    var id = req.body.userId;
     var currentUser = req.user;
-    
+
     var project = new Project(
-        {title: req.body.title, 
-            description: req.body.description, 
-            deadline: req.body.deadline, 
-            status: req.body.status, 
-            nbWorker: req.body.nbWorker, 
+        {
+            title: req.body.title,
+            description: req.body.description,
+            deadline: req.body.deadline,
+            status: req.body.status,
+            nbWorker: req.body.nbWorker,
             projectManager: req.user
-            });
-    console.log(project);
+        });
     project.save().then((ok) => {
         res.json("ok");
-    }).catch(err =>{
+    }).catch(err => {
         console.log(err);
         res.status(400).json("project not created");
     });
@@ -163,10 +169,10 @@ app.put("/project", (req, res) => {
         project.nbWorker = req.body.nbWorker;
         project.save().then((ok) => {
             res.json(project);
-        }).catch(err =>{
+        }).catch(err => {
             console.log(err);
             res.status(400).json("Project not found");
-        } );
+        });
     });
 });
 
@@ -180,35 +186,26 @@ app.delete("/project", (req, res) => {
     });
 });
 
-/*
-    this.id = data._id || data.id || null;
-    this.username = data.username || null;
-    this.firstname = data.firstname || null;
-    this.lastname = data.lastname || null;
-    this.admin = data.admin || false;
-    this.email = data.email || null;
-    this.password = data.password || null;
-*/
 // TODO change user type : req.body.userType => admin true false.
 app.post("/user", (req, res) => {
     User.findByUserName(req.body.username).then((u) => {
         res.status(500).json('Le nom d\'utilisateur existe déjà');
     }).catch((no) => {
-        let user = new User({username: req.body.username, admin: req.body.userType });
+        let user = new User({ username: req.body.username, admin: req.body.userType });
         user.setPassword(req.body.password);
         res.json('Votre compte a bien été créé');
     });
 });
 
 app.delete("/projects/all", (req, res) => {
-    if(req.user && req.user.admin){
+    if (req.user && req.user.admin) {
         Project.removeAll().then((remove) => {
             res.json("All user removed");
         }).catch((err) => {
             console.err("Error : ", err);
             res.status(500).json("RIP");
         })
-    }else{
+    } else {
         res.status(403).json("admin only");
     }
 });
