@@ -4,6 +4,7 @@ const assert = require('assert');
 const morgan = require('morgan');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
+const cors = require('cors');
 
 let User = require('../models/User');
 let Project = require('../models/Project');
@@ -14,6 +15,7 @@ const app = express();
 
 app.set('secret', config.secret);
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -52,7 +54,7 @@ app.post("/auth", (req, res) => {
 
 // Insecure routes
 
-app.get("/project/all", (req, res) => {
+app.get("/projects", (req, res) => {
     Project.all().then((projects) => {
         res.json(projects);
     }).catch((err) => {
@@ -62,7 +64,7 @@ app.get("/project/all", (req, res) => {
 
 // Titre, description, tags
 // TODO
-app.get("/project/search", (req, res) => {
+app.get("/projects/search", (req, res) => {
     var search = req.query.search;
     Project.search(search).then((projects) => {
         res.json(projects);
@@ -72,7 +74,7 @@ app.get("/project/search", (req, res) => {
     });
 });
 
-app.get("/project/filtered", (req, res) => {
+app.get("/projects/filtered", (req, res) => {
     var type = req.query.filterType;
     var value = req.query.value;
     Project.find({ [type]: value }).then((projects) => {
@@ -83,14 +85,14 @@ app.get("/project/filtered", (req, res) => {
     });
 });
 
-app.get("/project/:id", (req, res) => {
+app.get("/projects/:id", (req, res) => {
     let id = req.params.id;
     Project.findById(id).then((project) => {
         res.json(project);
     }).catch(err => res.status(403).json("Project id not found"));
 });
 
-app.get('/role', (req, res) => {
+app.get('/roles', (req, res) => {
     res.json(["Administrator", "Project Manager"]);
 });
 
@@ -133,7 +135,7 @@ app.use(apiRoutes);
 
 
 // Secure routes
-app.post("/project", (req, res) => {
+app.post("/projects", (req, res) => {
 
     // Optional
     var id = req.body.userId;
@@ -157,7 +159,7 @@ app.post("/project", (req, res) => {
 });
 
 
-app.put("/project", (req, res) => {
+app.put("/projects", (req, res) => {
     let id = req.body.id;
     Project.findById(id).then((project) => {
         project.projectManager = req.user;
@@ -176,7 +178,7 @@ app.put("/project", (req, res) => {
     });
 });
 
-app.delete("/project", (req, res) => {
+app.delete("/projects", (req, res) => {
     let id = req.body.id;
     Project.remove(id).then((ok) => {
         res.json("ok");
@@ -193,6 +195,7 @@ app.post("/user", (req, res) => {
     }).catch((no) => {
         let user = new User({ username: req.body.username, admin: req.body.userType });
         user.setPassword(req.body.password);
+		user.save();
         res.json('Votre compte a bien été créé');
     });
 });
