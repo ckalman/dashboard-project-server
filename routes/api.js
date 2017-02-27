@@ -4,6 +4,7 @@ const assert = require('assert');
 const morgan = require('morgan');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
+const cors = require('cors');
 
 let User = require('../models/User');
 let Project = require('../models/Project');
@@ -14,6 +15,7 @@ const app = express();
 
 app.set('secret', config.secret);
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
