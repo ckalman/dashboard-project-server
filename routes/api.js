@@ -195,6 +195,7 @@ app.post("/user", (req, res) => {
     }).catch((no) => {
         let user = new User({ username: req.body.username, admin: req.body.userType });
         user.setPassword(req.body.password);
+		user.save();
         res.json('Votre compte a bien été créé');
     });
 });
