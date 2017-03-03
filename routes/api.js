@@ -193,10 +193,18 @@ app.post("/user", (req, res) => {
     User.findByUserName(req.body.username).then((u) => {
         res.status(500).json('Le nom d\'utilisateur existe déjà');
     }).catch((no) => {
-        let user = new User({ username: req.body.username, admin: req.body.userType });
+        let user = new User({ username: req.body.username, role: req.body.userType });
         user.setPassword(req.body.password);
 		user.save();
         res.json('Votre compte a bien été créé');
+    });
+});
+
+app.get("/users", (req, res) => {
+    User.all().then((users) => {
+        res.json(users);
+    }).catch((err) => {
+        console.log(err);
     });
 });
 

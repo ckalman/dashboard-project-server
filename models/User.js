@@ -98,8 +98,7 @@ class User {
     save() {
         var self = this;
         return new Promise(function (resolve, reject) {
-            console.log(self.id);
-            user.remove({ id: self.id }).then(function (u) {
+            user.remove({ _id: self.id }).then(function (u) {
                 user.insert(self).then(function (u) {
                     resolve(new User(u));
                 }).catch((err) => {
