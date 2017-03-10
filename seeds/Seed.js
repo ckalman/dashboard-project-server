@@ -1,8 +1,5 @@
 var User = require('../models/User');
 var Project = require('../models/Project');
-var db = require('node-localdb');
-var user = db(__dirname + '/../database/user.json');
-var project = db(__dirname + '/../database/Project.json');
 
 
 class Seed {
@@ -12,8 +9,8 @@ class Seed {
 
     clear() {
         return new Promise(function (resolve, reject) {
-            user.remove().then(function (u) {
-                project.remove().then(function (u) {
+            User.remove().then(function (u) {
+                Project.remove().then(function (u) {
                     resolve(true);
                 });
             });
@@ -21,10 +18,12 @@ class Seed {
     }
 
     seedDb() {
+        
         var promises = [];
         var userOne = new User({ username: "xavier",firstname: "Xavier", lastname: "CARREL", email: "x.c@cpnv.ch", role: "Project manager" });
         userOne.setPassword("1234");
         promises.push(userOne.save());
+        
 
         var userTwo = new User({ username: "jerome", firstname: "Jerome", lastname: "CHEVILLAT", email: "j.c@cpnv.ch", role: "Administrator" });
         userTwo.setPassword("1234");
@@ -32,7 +31,7 @@ class Seed {
 
         var admin = new User({ username: "admin", firstname: "Admin", lastname: "Admin", email: "admin@cpnv.ch", role: "Project manager" });
         admin.setPassword("1234");
-
+        
         Promise.all(promises).then((users) => {
             this.seedProject(users);
         });

@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const Seed = require('./seeds/Seed');
-
 const apiRouter = require('./routes/api');
 
 app.set('port', process.env.PORT || 23000);

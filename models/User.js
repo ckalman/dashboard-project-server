@@ -1,19 +1,21 @@
-var db = require('node-localdb');
-var user = db(__dirname + '/../database/user.json');
+var db = require('../utils/databases');
 const crypto = require('crypto');
 const hash = crypto.createHash('sha256');
-var _ = require('lodash');
+
+
 
 class User {
 
     constructor(data) {
-        this.id = data._id || data.id || null;
-        this.username = data.username || null;
-        this.firstname = data.firstname || null;
-        this.lastname = data.lastname || null;
-        this.role = data.role || "Project manager";
-        this.email = data.email || null;
-        this.password = data.password || null;
+        if(data){
+            this.id = data._id || data.id || null;
+            this.username = data.username || null;
+            this.firstname = data.firstname || null;
+            this.lastname = data.lastname || null;
+            this.role = data.role || "Project manager";
+            this.email = data.email || null;
+            this.password = data.password || null;
+        }
     }
 
     setPassword(password) {
@@ -27,14 +29,13 @@ class User {
 
     static all(){
         return new Promise(function (resolve, reject) {
-            user.find({}).then(function (users) {
+            db.users.find({}, function (err, users) {
+                if(err) reject(err);
                 var temp = [];
                 users.forEach((user) =>{
                     temp.push(new User(user));
                 })
                 resolve(temp);
-            }).catch((err) => {
-                reject(err);
             });
         });
     }
@@ -45,52 +46,52 @@ class User {
      */
     static find(search){
         return new Promise(function (resolve, reject) {
-            user.find(search).then(function (users) {
-                var temp = [];
-                users.forEach((user) =>{
-                    temp.push(new User(user));
-                })
-                resolve(temp);
-            }).catch((err) => {
-                reject(err);
-            });
+            var key = Object.keys(search)[0];
+            if(key){
+                db.users.find({ [key]: new RegExp(search[key], 'i')}, function (err, users) {
+                    var temp = [];
+                    if(err) reject(err);
+                    users.forEach((user) =>{
+                        temp.push(new User(user));
+                    })
+                    resolve(temp);
+                });
+            }else{
+                resolve([]);
+            }
+            
         });
     }
 
     static likeString(key, value){
         return new Promise(function (resolve, reject) {
-            user.find({}).then(function (users) {
-                var temp = [];
-                users.forEach((user) =>{
-                    if(_.includes(user[key],value)){
-                        temp.push(new User(user));
-                    }                    
-                })
-                resolve(temp);
-            }).catch((err) => {
-                reject(err);
+            db.users.find({ [key]: new RegExp(value, 'i')}, function (err, users) {
+                var result = [];
+                if(err) reject(err);
+                users.forEach((u) => {
+                    result.push(u);
+                });
+                resolve(u);
             });
         });
     }
 
     static findByUserName(name) {
         return new Promise(function (resolve, reject) {
-            user.findOne({ username: name }).then(function (u) {
+            db.users.findOne({ username: name }, function (err, u) {
+                if(err) reject(err);
                 var instance = new User(u);
                 resolve(instance);
-            }).catch((err) => {
-                reject(err);
             });
         });
     }
 
     static findById(id) {
         return new Promise(function (resolve, reject) {
-            user.findOne({ _id: id }).then(function (u) {
+            db.users.findOne({ _id: id }, function (err, u) {
+                if(err) reject(err);
                 var instance = new User(u);
                 resolve(instance);
-            }).catch((err) => {
-                reject(err);
             });
         });
     }
@@ -98,23 +99,27 @@ class User {
     save() {
         var self = this;
         return new Promise(function (resolve, reject) {
-            user.remove({ _id: self.id }).then(function (u) {
-                user.insert(self).then(function (u) {
+            db.users.remove({ _id: self.id }, {}, function (err, numRemoved) {
+                db.users.insert(new User(self), function (err, u) { 
+                    if(err) reject(err);
                     resolve(new User(u));
-                }).catch((err) => {
-                    reject(err);
                 });
             });
+            
         });
     }
 
     static remove(id) {
+        var remove = {};
+        if (id){
+            remove = { _id: id };
+        }
         return new Promise(function (resolve, reject) {
-            user.remove({ id: id }).then(function (u) {
-                resolve(true);
-            }).catch((err) => {
-                reject(err);
-            });
+             db.users.remove(remove, { multi: true }, function (err, numRemoved) {
+                 if(err) reject(err);
+                 resolve(numRemoved);
+
+             });
         });
     }
 
