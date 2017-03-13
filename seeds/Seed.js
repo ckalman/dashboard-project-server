@@ -73,6 +73,77 @@ class Seed {
             deadline: new Date(2015, 2, 25, 17, 30, 60)
         });
         project3.save();
+		
+		var project4 = new Project({
+			title: "Projet 4",
+			description: "Le projet numéro 4",
+			status: 'Open',
+			tags: ["C#", ".NET"],
+			projectManager: user1,
+			deadline: new Date(2017, 2, 25, 17, 30, 60)
+		});
+		project4.save();
+
+		var project5 = new Project({
+			title: "Projet 5",
+			description: "Le projet numéro 5",
+			status: 'Close',
+			tags: ["PHP", "Bootstrap"],
+			projectManager: user1,
+			deadline: new Date(2017, 2, 25, 17, 30, 60)
+		});
+		project5.save();
+
+		var project6 = new Project({
+			title: "Projet 6",
+			description: "Le projet numéro 6",
+			status: 'Open',
+			tags: ["PHP", "Bootstrap"],
+			projectManager: user1,
+			deadline: new Date(2017, 2, 25, 17, 30, 60)
+		});
+		project6.save();
+
+		var project7 = new Project({
+			title: "Projet 7",
+			description: "Le projet numéro 7",
+			status: 'Close',
+			tags: ["Java", "Android"],
+			projectManager: user1,
+			deadline: new Date(2017, 2, 25, 17, 30, 60)
+		});
+		project7.save();
+
+		var project8 = new Project({
+			title: "Projet 8",
+			description: "Le projet numéro 8",
+			status: 'Open',
+			tags: ["PHP", "Bootstrap"],
+			projectManager: user1,
+			deadline: new Date(2017, 2, 25, 17, 30, 60)
+		});
+		project8.save();
+
+		var project9 = new Project({
+			title: "Projet 9",
+			description: "Le projet numéro 9",
+			status: 'Close',
+			tags: ["SQL", "phpMyAdmin"],
+			projectManager: user1,
+			deadline: new Date(2017, 2, 25, 17, 30, 60)
+		});
+		project9.save();
+
+		var project10 = new Project({
+			title: "Projet 10",
+			description: "Le projet numéro 10",
+			status: 'Close',
+			tags: ["C"],
+			projectManager: user1,
+			deadline: new Date(2017, 2, 25, 17, 30, 60)
+		});
+		project10.save();
+
     }
 }
 
