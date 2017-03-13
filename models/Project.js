@@ -1,5 +1,6 @@
 var db = require('../utils/databases');
 var User = require('./User');
+var _ = require('lodash');
 
 class Project {
 
@@ -15,6 +16,19 @@ class Project {
             // Type : User
             this.projectManager = new User(data.projectManager) || null;
         }
+    }
+
+    static getAllTags(){
+        return new Promise(function (resolve, reject) {
+            db.projects.find({}, function (err, projects) {
+                if(err) reject(err);
+                var temp = [];
+                projects.forEach((project) =>{
+                    temp = temp.concat(project.tags);
+                })
+                resolve(_.uniq(temp));
+            });
+        });
     }
 
     static all() {

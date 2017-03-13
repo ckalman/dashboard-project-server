@@ -97,6 +97,12 @@ app.get('/roles', (req, res) => {
 });
 
 
+app.get('/tags', (req, res) => {
+    Project.getAllTags().then((tags) => {
+        res.json(tags);
+    });
+});
+
 // AUTH MIDDLEWARE
 
 // route middleware to check the token

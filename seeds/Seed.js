@@ -68,7 +68,7 @@ class Seed {
             title: "Test",
             description: "lorem ...",
             status: 'Close',
-            tags: ["javascript", "css", "html"],
+            tags: ["java", "ruby"],
             projectManager: projectManagers[1],
             deadline: new Date(2015, 2, 25, 17, 30, 60)
         });
