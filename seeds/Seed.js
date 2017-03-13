@@ -31,6 +31,7 @@ class Seed {
 
         var admin = new User({ username: "admin", firstname: "Admin", lastname: "Admin", email: "admin@cpnv.ch", role: "Administrator" });
         admin.setPassword("1234");
+        promises.push(admin.save());
 
         Promise.all(promises).then((users) => {
             this.seedProject(users);
