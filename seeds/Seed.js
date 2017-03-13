@@ -18,24 +18,24 @@ class Seed {
     }
 
     seedDb() {
-        
+
         var promises = [];
         var userOne = new User({ username: "xavier",firstname: "Xavier", lastname: "CARREL", email: "x.c@cpnv.ch", role: "Project manager" });
         userOne.setPassword("1234");
         promises.push(userOne.save());
-        
 
-        var userTwo = new User({ username: "jerome", firstname: "Jerome", lastname: "CHEVILLAT", email: "j.c@cpnv.ch", role: "Administrator" });
+
+        var userTwo = new User({ username: "jerome", firstname: "Jerome", lastname: "CHEVILLAT", email: "j.c@cpnv.ch", role: "Project manager" });
         userTwo.setPassword("1234");
         promises.push(userTwo.save());
 
-        var admin = new User({ username: "admin", firstname: "Admin", lastname: "Admin", email: "admin@cpnv.ch", role: "Project manager" });
+        var admin = new User({ username: "admin", firstname: "Admin", lastname: "Admin", email: "admin@cpnv.ch", role: "Administrator" });
         admin.setPassword("1234");
-        
+
         Promise.all(promises).then((users) => {
             this.seedProject(users);
         });
-        
+
     }
 
     seedProject(projectManagers) {
