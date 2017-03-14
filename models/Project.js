@@ -91,8 +91,7 @@ class Project {
         return new Promise(function (resolve, reject) {
             db.projects.findOne({ _id: id }, function (err, project) {
                 if(err) reject(err);
-                var instance = new Project(project);
-                resolve(instance);
+                resolve(new Project(project));
             });
         });
     }
@@ -114,6 +113,19 @@ class Project {
             
         });
     }
+	
+	update(data){
+		var self = this;
+		return new Promise(function (resolve, reject) {
+			db.projects.update({_id: self.id}, new Project(data), function (err, u) { 
+				if(err) reject(err);
+				db.projects.findOne({ _id: self.id }, function (err, project) {
+					if(err) reject(err);
+					resolve(new Project(project));
+				});
+			});
+        });
+	}
 
     static remove(id) {
         var remove = {};

@@ -168,15 +168,17 @@ app.post("/projects", (req, res) => {
 app.put("/projects", (req, res) => {
     let id = req.body.id;
     Project.findById(id).then((project) => {
-        project.projectManager = req.user;
-        project.title = req.body.title;
-        project.description = req.body.description;
-        project.deadline = req.body.deadline;
-        project.status = req.body.status;
-        project.tags = req.body.tags;
-        project.nbWorker = req.body.nbWorker;
-        project.save().then((ok) => {
-            res.json(project);
+		var newProject = {
+			projectManager: req.body.projectManager,
+			title: req.body.title,
+			description: req.body.description,
+			deadline: req.body.deadline,
+			status: req.body.status,
+			tags: req.body.tags,
+			nbWorker: req.body.nbWorker
+		};
+        project.update(newProject).then((nProject) => {
+            res.json(nProject);
         }).catch(err => {
             console.log(err);
             res.status(400).json("Project not found");
