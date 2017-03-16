@@ -196,14 +196,13 @@ app.delete("/projects", (req, res) => {
     });
 });
 
-// TODO change user type : req.body.userType => admin true false.
 app.post("/user", (req, res) => {
     User.findByUserName(req.body.username).then((u) => {
         res.status(500).json('Le nom d\'utilisateur existe déjà');
     }).catch((no) => {
-        let user = new User({ username: req.body.username, role: req.body.userType });
+        let user = new User({ firstname: req.body.firstname, lastname: req.body.lastname, username: req.body.username, email: req.body.email, role: req.body.role });
         user.setPassword(req.body.password);
-		user.save();
+        user.save();
         res.json('Votre compte a bien été créé');
     });
 });

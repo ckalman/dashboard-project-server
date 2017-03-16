@@ -80,6 +80,7 @@ class User {
         return new Promise(function (resolve, reject) {
             db.users.findOne({ username: name }, function (err, u) {
                 if(err) reject(err);
+                if(u == null) reject(null);
                 var instance = new User(u);
                 resolve(instance);
             });
