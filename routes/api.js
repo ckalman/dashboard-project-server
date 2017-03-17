@@ -146,6 +146,10 @@ app.post("/projects", (req, res) => {
     // Optional
     var id = req.body.userId;
     var currentUser = req.user;
+    var manager =  req.user;
+    if(req.body.projectManager){
+        manager = req.body.projectManager;
+    }
 
     var project = new Project(
         {
@@ -154,10 +158,11 @@ app.post("/projects", (req, res) => {
             deadline: req.body.deadline,
             status: req.body.status,
             nbWorker: req.body.nbWorker,
-            projectManager: req.user
+            tags: req.body.tags,
+            projectManager: manager
         });
-    project.save().then((ok) => {
-        res.json("ok");
+    project.save().then((project) => {
+        res.json(project);
     }).catch(err => {
         console.log(err);
         res.status(400).json("project not created");
