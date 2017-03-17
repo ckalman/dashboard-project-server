@@ -216,7 +216,8 @@ app.get("/users", (req, res) => {
 });
 
 app.delete("/projects/all", (req, res) => {
-    if (req.user && req.user.admin) {
+    console.log(req.user);
+    if (req.user.role == 'Administrator') {
         Project.removeAll().then((remove) => {
             res.json("All user removed");
         }).catch((err) => {

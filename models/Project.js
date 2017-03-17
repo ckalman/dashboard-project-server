@@ -141,7 +141,7 @@ class Project {
     }
 
     static removeAll() {
-        return remove(null);
+        return Project.remove(null);
     }
 }
 
