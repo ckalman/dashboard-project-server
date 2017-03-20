@@ -98,7 +98,7 @@ class Seed {
 			title: "Projet 6",
 			description: "Le projet numéro 6",
 			status: 'Open',
-			tags: ["PHP", "Bootstrap"],
+			tags: ["phpMyAdmin", "Bootstrap"],
 			projectManager: user1,
 			deadline: new Date(2017, 2, 25, 17, 30, 60)
 		});
@@ -118,7 +118,7 @@ class Seed {
 			title: "Projet 8",
 			description: "Le projet numéro 8",
 			status: 'Open',
-			tags: ["PHP", "Bootstrap"],
+			tags: ["phpMyAdmin", "Bootstrap"],
 			projectManager: user1,
 			deadline: new Date(2017, 2, 25, 17, 30, 60)
 		});
