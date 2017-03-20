@@ -59,6 +59,7 @@ class Seed {
             description: "lorem ...",
             status: 'Close',
             tags: ["javascript", "css", "html"],
+			nbWorker: 3,
             projectManager: user2,
             deadline: new Date(2015, 2, 25, 17, 30, 60)
         });
@@ -79,6 +80,7 @@ class Seed {
 			description: "Le projet numéro 4",
 			status: 'Open',
 			tags: ["C#", ".NET"],
+			nbWorker: 5,
 			projectManager: user1,
 			deadline: new Date(2017, 2, 25, 17, 30, 60)
 		});
@@ -89,6 +91,7 @@ class Seed {
 			description: "Le projet numéro 5",
 			status: 'Close',
 			tags: ["PHP", "Bootstrap"],
+			nbWorker: 1,
 			projectManager: user1,
 			deadline: new Date(2017, 2, 25, 17, 30, 60)
 		});
@@ -99,6 +102,7 @@ class Seed {
 			description: "Le projet numéro 6",
 			status: 'Open',
 			tags: ["phpMyAdmin", "Bootstrap"],
+			nbWorker: 10,
 			projectManager: user1,
 			deadline: new Date(2017, 2, 25, 17, 30, 60)
 		});
@@ -109,6 +113,7 @@ class Seed {
 			description: "Le projet numéro 7",
 			status: 'Close',
 			tags: ["Java", "Android"],
+			nbWorker: 2,
 			projectManager: user1,
 			deadline: new Date(2017, 2, 25, 17, 30, 60)
 		});
@@ -119,6 +124,7 @@ class Seed {
 			description: "Le projet numéro 8",
 			status: 'Open',
 			tags: ["phpMyAdmin", "Bootstrap"],
+			nbWorker: 2,
 			projectManager: user1,
 			deadline: new Date(2017, 2, 25, 17, 30, 60)
 		});
@@ -129,6 +135,7 @@ class Seed {
 			description: "Le projet numéro 9",
 			status: 'Close',
 			tags: ["SQL", "phpMyAdmin"],
+			nbWorker: 7,
 			projectManager: user1,
 			deadline: new Date(2017, 2, 25, 17, 30, 60)
 		});
@@ -139,6 +146,7 @@ class Seed {
 			description: "Le projet numéro 10",
 			status: 'Close',
 			tags: ["C"],
+			nbWorker: 42,
 			projectManager: user1,
 			deadline: new Date(2017, 2, 25, 17, 30, 60)
 		});
