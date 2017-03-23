@@ -1,10 +1,23 @@
 # Installation du projet : 
 
-Après avoir cloné le projet depuis github, faire un "npm install".
+Après avoir cloné le projet depuis github, executer les commandes suivantes : 
 
-Quand l'install est terminé faire "npm start"
+´´´sh
+npm install
+´´´
 
-Avant d'appeler le serveur une fois, lancer les seeds pour remplir la base de données : "localhost:23000/seed"
+Quand l'install est terminé faire :
+
+´´´sh
+npm start
+´´´
+
+Avant d'appeler le serveur pour la première fois, lancer les seeds pour remplir la base de données : 
+
+´´´sh
+localhost:23000/seed
+´´´
+
 
 # Routes sécurisées
 
