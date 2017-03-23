@@ -2,21 +2,21 @@
 
 Après avoir cloné le projet depuis github, executer les commandes suivantes : 
 
-´´´sh
+```bash
 npm install
-´´´
+```
 
 Quand l'install est terminé faire :
 
-´´´sh
+```bash
 npm start
-´´´
+```
 
 Avant d'appeler le serveur pour la première fois, lancer les seeds pour remplir la base de données : 
 
-´´´sh
+```
 localhost:23000/seed
-´´´
+```
 
 
 # Routes sécurisées
