@@ -78,7 +78,7 @@ class Seed {
 		var project4 = new Project({
 			title: "Projet 4",
 			description: "Le projet numéro 4",
-			status: 'Open',
+			status: 'On hold',
 			tags: ["C#", ".NET"],
 			nbWorker: 5,
 			projectManager: user1,
@@ -89,7 +89,7 @@ class Seed {
 		var project5 = new Project({
 			title: "Projet 5",
 			description: "Le projet numéro 5",
-			status: 'Close',
+			status: 'Frozen',
 			tags: ["PHP", "Bootstrap"],
 			nbWorker: 1,
 			projectManager: user1,
