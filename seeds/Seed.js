@@ -47,6 +47,7 @@ class Seed {
             description: "Premier projet pour test",
             status: 'Open',
             tags: ["javascript", "css", "html"],
+            nbWorker: 5,
             projectManager: user1,
             deadline: new Date(2017, 2, 25, 17, 30, 60)
         });
@@ -70,6 +71,7 @@ class Seed {
             description: "lorem ...",
             status: 'Close',
             tags: ["java", "ruby"],
+            nbWorker: 5,
             projectManager: projectManagers[1],
             deadline: new Date(2015, 2, 25, 17, 30, 60)
         });
